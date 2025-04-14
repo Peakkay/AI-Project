@@ -156,5 +156,12 @@ nn.Sequential(
     \item KMeans with 3 clusters achieves the best clustering purity (0.9419).
     \item DBSCAN is not suitable for this dataset due to high fragmentation.
 \end{itemize}
+The modelling results demonstrate that both the regression and classification models fit the observed trend in the tuition payment data from 2022 to 2023 effectively. The primary features, \textbf{ENROLLMENT} and \textbf{TUITION PAYMENT MARCH 2022}, were identified as the most significant predictors, with the highest correlation to the target variable, \textbf{Tuition Payment 2023}. As a result, the models exhibit strong performance, with Ridge and Linear Regression achieving high regression accuracy (R\textsuperscript{2} $\approx$ 0.88), and all classification models (apart from Linear Regression + Classifier) achieving an accuracy of approximately \textbf{98.5\%}.
+
+It is important to note that choosing any other features or target variables would likely lead to negative results. For instance, when testing with the \textbf{Number of Enrolled Courses} as a feature, the models performed poorly, with XGBoost and Deep Neural Networks achieving a maximum accuracy of only \textbf{45\%}. This poor performance is a direct result of weak data correlation between the number of enrolled courses and the tuition payment. In contrast, \textbf{ENROLLMENT} and \textbf{TUITION PAYMENT MARCH 2022} consistently produced the most accurate predictions, underscoring the importance of selecting relevant features based on their relationship to the target variable.
+
+Additionally, the clustering analysis revealed that \textbf{KMeans clustering}, with 3 clusters, achieved the best purity score (\textbf{0.9419}), confirming its superiority for this dataset. In contrast, \textbf{DBSCAN} failed to provide meaningful results due to excessive fragmentation and the lack of dense clusters.
+
+Overall, these results highlight the critical role of feature selection in model performance and reaffirm that accurate predictions require a strong correlation between the features and the target variable.
 
 \end{document}
