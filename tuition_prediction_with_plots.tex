@@ -1,4 +1,3 @@
-
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
@@ -6,8 +5,9 @@
 \usepackage{booktabs}
 \usepackage{float}
 \usepackage{geometry}
+\usepackage{fancyvrb}
 \geometry{margin=1in}
-\title{Tuition Payment 2023 Prediction and Clustering Report}
+\title{Modelling Report}
 \author{Team 2}
 \date{}
 
@@ -40,11 +40,7 @@ Lasso Regression & 0.0261 & 0.7995 \\
 \caption{Regression performance metrics}
 \end{table}
 
-\textbf{Note}: Linear and Ridge Regression yield identical results, indicating no overfitting in the Ridge model. Lasso performs slightly worse due to stronger regularization.
-
 \section{Classification Model Performance}
-Classification was performed by adding a classifier head or thresholding on the regression output. Results are as follows:
-
 \begin{table}[H]
 \centering
 \begin{tabular}{lc}
@@ -64,13 +60,41 @@ Ensemble & 98.41\% \\
 \caption{Classification accuracy across models}
 \end{table}
 
-\textbf{Key Insight}: All models, except Linear Regression with a classifier head, converge to approximately \textbf{98.5\% accuracy}, demonstrating model saturation. This high accuracy is largely attributed to the 80-20 train-test split, where the large training data provides substantial advantage. On reducing the test size to 10\%, \textbf{accuracy reached 100\%}, suggesting that models were near-perfectly fitting the training data.
+\textbf{Key Insight}: All models apart from Linear Regression + Classifier converge to approximately \textbf{98.5\% accuracy}. These models produce \textit{exactly the same classification report}, suggesting they make \textbf{the same predictions on the same samples}, with only a few misclassified instances. Reducing the test size to 10\% pushes these models to \textbf{100\% accuracy}, indicating near-perfect fit on seen patterns.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{model_comparison.png}
 \caption{Model comparison chart across classifiers}
 \end{figure}
+
+\section{Classification Reports}
+
+\subsection*{Linear Regression + Classifier}
+\begin{Verbatim}[fontsize=\small]
+              precision    recall  f1-score   support
+
+          -1       0.00      0.00      0.00         0
+           0       0.12      0.74      0.20      1125
+           1       0.00      0.00      0.00      6192
+
+    accuracy                           0.11      7317
+   macro avg       0.04      0.25      0.07      7317
+weighted avg       0.02      0.11      0.03      7317
+\end{Verbatim}
+
+
+\subsection*{All Other Models}
+\begin{Verbatim}[fontsize=\small]
+              precision    recall  f1-score   support
+
+           0       1.00      0.90      0.95      1125
+           1       0.98      1.00      0.99      6192
+
+    accuracy                           0.98      7317
+   macro avg       0.99      0.95      0.97      7317
+weighted avg       0.98      0.98      0.98      7317
+\end{Verbatim}
 
 \section{Deep Neural Network Architecture}
 \begin{verbatim}
@@ -88,7 +112,6 @@ nn.Sequential(
     nn.Linear(64, num_classes)
 )
 \end{verbatim}
-The DNN was trained with AdamW optimizer and StepLR scheduler. Its performance matched other saturated models with 98.41\% accuracy.
 
 \section{Clustering Analysis}
 
@@ -127,8 +150,9 @@ The DNN was trained with AdamW optimizer and StepLR scheduler. Its performance m
 \section{Conclusion}
 \begin{itemize}
     \item Ridge and Linear Regression achieve high regression accuracy (R\textsuperscript{2} $\approx$ 0.88).
-    \item All classification models, except for Linear Regression + Classifier, converge to \textbf{98.5\% accuracy}.
-    \item With a smaller test size (10\%), \textbf{100\% accuracy} is achieved by most models.
+    \item All classification models, apart from Linear Regression + Classifier, converge to \textbf{98.5\% accuracy} and produce the same classification report.
+    \item They all misclassify the same samples, indicating convergence to an almost perfect pattern recognition.
+    \item With a smaller test size (10\%), \textbf{100\% accuracy} is achieved.
     \item KMeans with 3 clusters achieves the best clustering purity (0.9419).
     \item DBSCAN is not suitable for this dataset due to high fragmentation.
 \end{itemize}
